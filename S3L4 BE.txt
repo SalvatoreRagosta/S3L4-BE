@@ -1,0 +1,108 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Preventivo.aspx.cs" Inherits="Concessionaria.Preventivo" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Creazione Preventivo</title>
+    <style>
+        .container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="container">
+            <h2>Creazione Preventivo</h2>
+            <div class="form-group">
+                <label for="ddlAuto">Seleziona Auto:</label>
+                <asp:DropDownList ID="ddlAuto" runat="server">
+                    <asp:ListItem Text="Ferrari" Value="Ferrari" />
+                    <asp:ListItem Text="BMW" Value="BMW" />
+                    <asp:ListItem Text="Audi" Value="Audi" />
+                </asp:DropDownList>
+                <asp:Image ID="imgAuto" runat="server" />
+                <asp:Label ID="lblPrezzoBase" runat="server" Text=""></asp:Label>
+            </div>
+            <div class="form-group">
+                <label for="chkOptional">Optional:</label>
+                <asp:CheckBoxList ID="chkOptional" runat="server">
+                    <asp:ListItem Text="Turbo" Value="Turbo" />
+                    <asp:ListItem Text="Decappottabile" Value="Decappottabile" />
+                    <asp:ListItem Text="Navigatore" Value="Navigatore" />
+                </asp:CheckBoxList>
+            </div>
+            <div class="form-group">
+                <label for="txtGaranzia">Anni di Garanzia:</label>
+                <asp:TextBox ID="txtGaranzia" runat="server"></asp:TextBox>
+            </div>
+            <asp:Button ID="btnCalcola" runat="server" Text="Calcola Preventivo" OnClick="btnCalcola_Click" />
+            <div class="form-group">
+                <label for="lblTotalePreventivo">Totale Preventivo:</label>
+                <asp:Label ID="lblTotalePreventivo" runat="server" Text=""></asp:Label>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+
+using System;
+
+namespace Concessionaria
+{
+    public partial class Preventivo : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                
+                lblPrezzoBase.Text = "Prezzo di base dell'auto selezionata: $XXXXX"; // sostituire XXXXX con il prezzo reale
+            }
+        }
+
+        protected void btnCalcola_Click(object sender, EventArgs e)
+        {
+            
+            double prezzoBase = 0;
+            
+
+            double totaleOptional = 0;
+            
+            foreach (ListItem item in chkOptional.Items)
+            {
+                if (item.Selected)
+                {
+                    
+                }
+            }
+
+            double totaleGaranzia = 0;
+            
+            int anniGaranzia = 0;
+            if (int.TryParse(txtGaranzia.Text, out anniGaranzia))
+            {
+               
+                totaleGaranzia = anniGaranzia * 120; // Ogni anno di garanzia costa 120,00 EUR
+            }
+
+         
+            double totalePreventivo = prezzoBase + totaleOptional + totaleGaranzia;
+
+           
+            lblTotalePreventivo.Text = string.Format("Prezzo di base dell'auto: {0:C}<br />Totale optional: {1:C}<br />Totale garanzia: {2:C}<br />Totale complessivo: {3:C}", prezzoBase, totaleOptional, totaleGaranzia, totalePreventivo);
+        }
+    }
+}
